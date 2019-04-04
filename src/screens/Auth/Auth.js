@@ -1,11 +1,24 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 
 class AuthScreen extends Component {
+  static navigationOptions = {
+    title: "Login"
+  };
   render() {
     return (
-      <View>
-        <Text>AuthScreen</Text>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <Button
+          title="Login"
+          onPress={() => this.props.navigation.navigate("Places")}
+          color="purple"
+        />
       </View>
     );
   }

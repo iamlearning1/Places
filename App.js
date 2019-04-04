@@ -4,12 +4,25 @@ import SplashScreen from "react-native-splash-screen";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import AuthScreen from "./src/screens/Auth/Auth";
+import PlaceContainer from "./src/screens/MainTabs/startMainTabs";
 
 const AppNavigator = createStackNavigator(
   {
-    Home: AuthScreen
+    Home: AuthScreen,
+    Places: PlaceContainer
   },
-  { intialRouteName: "Home" }
+  {
+    intialRouteName: "Home",
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "purple"
+      },
+      headerTintColor: "#FFFFFF",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+    }
+  }
 );
 
 const AppContainer = createAppContainer(AppNavigator);
