@@ -2,14 +2,15 @@ import React from "react";
 import { AppRegistry } from "react-native";
 import { Provider } from "react-redux";
 import App from "./App";
+import appName from "./app.json";
 import configureStore from "./src/store/configureStore";
 
-const store = configureStore();
+// const store = configureStore();
 
-const RNRedux = () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
-);
+// const RNRedux = () => (
+//   <Provider store={store}>
+//     <App />
+//   </Provider>
+// );
 
-AppRegistry.registerComponent("AwesomePlaces", () => RNRedux);
+AppRegistry.registerComponent(appName.name, () => App);

@@ -47,7 +47,7 @@ const placeDetail = props => {
 const styles = StyleSheet.create({
   modalContainer: {
     margin: 22,
-    marginTop: Platform.OS === "ios" ? 33 : 0
+    marginTop: Platform.OS === "ios" ? 34 : 0
   },
   placeImage: {
     width: "100%",
