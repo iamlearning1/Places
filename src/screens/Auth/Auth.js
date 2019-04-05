@@ -1,11 +1,25 @@
 import React, { Component } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
+import Icon from "react-native-vector-icons/Ionicons";
+import { DrawerActions } from "react-navigation";
 
 class AuthScreen extends Component {
-  static navigationOptions = {
-    title: "Login"
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: "Login",
+    headerLeft: (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.dispatch(DrawerActions.toggleDrawer());
+        }}
+      >
+        <Icon size={30} name="ios-menu" color="white" />
+      </TouchableOpacity>
+    ),
+    headerLeftContainerStyle: {
+      marginLeft: 10
+    }
+  });
   render() {
     return (
       <View
