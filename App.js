@@ -6,12 +6,14 @@ import { Provider } from "react-redux";
 import AuthScreen from "./src/screens/Auth/Auth";
 import PlaceContainer from "./src/screens/MainTabs/startMainTabs";
 import configureStore from "./src/store/configureStore";
+import PlaceDetail from "./src/screens/PlaceDetail/PlaceDetail";
 
 const store = configureStore();
 
 const AppNavigator = createStackNavigator(
   {
     Home: AuthScreen,
+    PlaceDetail,
     Places: PlaceContainer
   },
   {
