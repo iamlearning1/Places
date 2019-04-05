@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, Button } from "react-native";
+import { connect } from "react-redux";
 
 class AuthScreen extends Component {
   static navigationOptions = {

@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import SplashScreen from "react-native-splash-screen";
 import { createStackNavigator, createAppContainer } from "react-navigation";
+import { Provider } from "react-redux";
 
 import AuthScreen from "./src/screens/Auth/Auth";
 import PlaceContainer from "./src/screens/MainTabs/startMainTabs";
+import configureStore from "./src/store/configureStore";
+
+const store = configureStore();
 
 const AppNavigator = createStackNavigator(
   {
@@ -24,14 +28,17 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-const AppContainer = createAppContainer(AppNavigator);
+const Navigation = createAppContainer(AppNavigator);
 
-class App extends Component {
+export default class App extends Component {
   componentDidMount() {
     SplashScreen.hide();
   }
   render() {
-    return <AppContainer />;
+    return (
+      <Provider store={store}>
+        <Navigation />
+      </Provider>
+    );
   }
 }
-export default App;
