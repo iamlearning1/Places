@@ -15,36 +15,37 @@ import SideDrawer from "./src/screens/SideDrawer/SideDrawer";
 
 const store = configureStore();
 
-const AppNavigator = createStackNavigator(
-  {
-    Home: AuthScreen,
-    PlaceDetail,
-    Places: PlaceContainer
-  },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: "purple"
-      },
-      headerTintColor: "#FFFFFF",
-      headerTitleStyle: {
-        fontWeight: "bold"
-      }
-    }
-  }
-);
+// const AppNavigator = createStackNavigator(
+//   {
+//     Home: AuthScreen,
+//     PlaceDetail,
+//     Places: PlaceContainer
+//   },
+//   {
+//     initialRouteName: "Home",
+//     defaultNavigationOptions: {
+//       headerStyle: {
+//         backgroundColor: "purple"
+//       },
+//       headerTintColor: "#FFFFFF",
+//       headerTitleStyle: {
+//         fontWeight: "bold"
+//       }
+//     }
+//   }
+// );
 
-const SideDrawerNavigator = createDrawerNavigator(
-  {
-    SideDrawer,
-    Home: AppNavigator
-  },
-  {
-    initialRouteName: "Home"
-  }
-);
+// const SideDrawerNavigator = createDrawerNavigator(
+//   {
+//     // SideDrawer,
+//     Home: AppNavigator
+//   },
+//   {
+//     initialRouteName: "Home"
+//   }
+// );
 
-const Navigation = createAppContainer(SideDrawerNavigator);
+// const Navigation = createAppContainer(SideDrawerNavigator);
 
 export default class App extends Component {
   componentDidMount() {
@@ -53,7 +54,8 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Navigation />
+        {/* <Navigation /> */}
+        <PlaceContainer />
       </Provider>
     );
   }

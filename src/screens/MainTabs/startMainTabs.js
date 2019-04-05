@@ -9,7 +9,7 @@ const PlaceNavigator = createBottomTabNavigator(
     SharePlace
   },
   {
-    initialRouteName: "FindPlace"
+    initialRouteName: "SharePlace"
   }
 );
 
