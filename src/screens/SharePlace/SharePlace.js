@@ -5,39 +5,41 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import { addPlace } from "../../store/actions";
 import PlaceInput from "../../components/PlaceInput/PlaceInput";
+import PickImage from "../../components/PickImage";
+import PickLocation from "../../components/PickLocation";
 import HeadingText from "../../components/UI/HeadingText";
 
 class SharePlaceScreen extends Component {
+  state = {
+    placeName: ""
+  };
   static navigationOptions = {
     tabBarIcon: <Icon size={30} name="ios-share-alt" color="purple" />,
     title: "Share Place"
   };
-  placeAddedHandler = placeName => {
-    this.props.onAddPlace(placeName);
-    this.props.navigation.navigate("FindPlace");
+  placeAddedHandler = () => {
+    if (this.state.placeName.trim().length > 0) {
+      this.props.onAddPlace(this.state.placeName);
+      this.props.navigation.navigate("FindPlace");
+    }
+  };
+  placeNameChangeHandler = placeName => {
+    this.setState({
+      placeName
+    });
   };
   render() {
     return (
       <ScrollView>
         <View style={styles.container}>
           <HeadingText>Share a Place with us!</HeadingText>
-          <View style={styles.placeholder}>
-            <Image
-              source={require("../../assets/background.jpg")}
-              style={styles.image}
-            />
-          </View>
-          <View style={styles.button}>
-            <Button title="Pick Image" />
-          </View>
-          <View style={styles.placeholder}>
-            <HeadingText style={{ fontSize: 18 }}>Map</HeadingText>
-          </View>
-          <View style={styles.button}>
-            <Button title="Locate Me" />
-          </View>
-          <PlaceInput />
-          <Button title="Share!" />
+          <PickImage />
+          <PickLocation />
+          <PlaceInput
+            placeName={this.state.placeName}
+            onChangeText={this.placeNameChangeHandler}
+          />
+          <Button title="Share!" onPress={this.placeAddedHandler} />
         </View>
       </ScrollView>
     );
