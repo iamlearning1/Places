@@ -13,6 +13,32 @@ import HeadingText from "../../components/UI/HeadingText";
 import Button from "../../components/UI/Button/";
 
 class AuthScreen extends Component {
+	state = {
+		controls: {
+			email: {
+				value: "",
+				valid: false,
+				validationRules: {
+					isEmail: true
+				}
+			},
+			password: {
+				value: "",
+				valid: false,
+				validationRules: {
+					minLength: 6
+				}
+			},
+			confirmPassword: {
+				value: "",
+				valid: false,
+				validationRules: {
+					equalTo: "password"
+				}
+			}
+		}
+	};
+
 	static navigationOptions = ({ navigation }) => ({
 		title: "Login",
 		headerLeft: (
@@ -28,6 +54,19 @@ class AuthScreen extends Component {
 			marginLeft: 10
 		}
 	});
+
+	updateInputState = (key, value) => {
+		this.setState(prevState => ({
+			controls: {
+				...prevState.controls,
+				[key]: {
+					...prevState.controls[key],
+					value
+				}
+			}
+		}));
+	};
+
 	render() {
 		return (
 			<ImageBackground
@@ -43,14 +82,26 @@ class AuthScreen extends Component {
 						<DefaultInput
 							placeholder="Email Address"
 							style={styles.input}
+							value={this.state.controls.email.value}
+							onChangeText={val =>
+								this.updateInputState("email", val)
+							}
 						/>
 						<DefaultInput
 							placeholder="Password"
 							style={styles.input}
+							value={this.state.controls.password.value}
+							onChangeText={val =>
+								this.updateInputState("password", val)
+							}
 						/>
 						<DefaultInput
 							placeholder="Current Password"
 							style={styles.input}
+							value={this.state.controls.confirmPassword.value}
+							onChangeText={val =>
+								this.updateInputState("confirmPassword", val)
+							}
 						/>
 					</View>
 					<Button

@@ -4,7 +4,8 @@ import {
 	View,
 	StyleSheet,
 	Text,
-	TouchableOpacity
+	TouchableOpacity,
+	Animated
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
@@ -12,7 +13,8 @@ import { connect } from "react-redux";
 import PlaceList from "../../components/PlaceList/PlaceList";
 class FindPlaceScreen extends Component {
 	state = {
-		show: false
+		show: false,
+		removeAnim: new Animated.Value(1)
 	};
 	static navigationOptions = {
 		tabBarIcon: (
@@ -33,9 +35,11 @@ class FindPlaceScreen extends Component {
 	};
 
 	showPlacesHandler = () => {
-		this.setState({
-			show: true
-		});
+		Animated.timing(this.state.removeAnim, {
+			toValue: 0,
+			duration: 500,
+			useNativeDriver: true
+		}).start();
 	};
 
 	render() {
@@ -51,13 +55,27 @@ class FindPlaceScreen extends Component {
 			);
 		} else {
 			display = (
-				<View style={styles.view}>
-					<TouchableOpacity
-						onPress={this.showPlacesHandler}
-						style={styles.icon}
+				<View style={styles.button}>
+					<Animated.View
+						style={{
+							opacity: this.state.removeAnim,
+							transform: [
+								{
+									scale: this.state.removeAnim.interpolate({
+										inputRange: [0, 1],
+										outputRange: [14, 1]
+									})
+								}
+							]
+						}}
 					>
-						<Text style={styles.text}>Search</Text>
-					</TouchableOpacity>
+						<TouchableOpacity
+							onPress={this.showPlacesHandler}
+							style={styles.icon}
+						>
+							<Text style={styles.text}>Search</Text>
+						</TouchableOpacity>
+					</Animated.View>
 				</View>
 			);
 		}
@@ -71,14 +89,13 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		borderRadius: 15,
 		alignItems: "center",
-		borderColor: "orange",
-		width: "50%"
+		borderColor: "purple"
 	},
-	view: { flex: 1, justifyContent: "center", alignItems: "center" },
+	button: { flex: 1, justifyContent: "center", alignItems: "center" },
 	text: {
 		fontSize: 26,
 		fontWeight: "bold",
-		color: "orange"
+		color: "purple"
 	},
 	placelist: {
 		flex: 1,
