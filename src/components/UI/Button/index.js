@@ -1,23 +1,40 @@
 import React from "react";
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 
-export default props => (
-  <TouchableOpacity onPress={props.onPress}>
-    <View style={[styles.button, { backgroundColor: props.color }]}>
-      <Text>{props.children}</Text>
-    </View>
-  </TouchableOpacity>
-);
+export default props => {
+  let content;
+  if (!props.disabled) {
+    content = (
+      <View style={[styles.button, { backgroundColor: props.color }]}>
+        <TouchableOpacity onPress={props.onPress}>
+          <Text>{props.children}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  } else {
+    content = (
+      <View style={styles.disabled}>
+        <Text style={{ color: "#aaa" }}>{props.children}</Text>
+      </View>
+    );
+  }
+  return content;
+};
 
 const styles = StyleSheet.create({
-  view: {
-    borderRadius: 5
-  },
   button: {
     margin: 6,
     padding: 8,
     borderColor: "pink",
     borderWidth: 2,
-    borderRadius: 5
+    borderRadius: 10
+  },
+  disabled: {
+    margin: 6,
+    padding: 8,
+    borderColor: "#eee",
+    borderWidth: 2,
+    borderRadius: 10,
+    backgroundColor: "#eee"
   }
 });
