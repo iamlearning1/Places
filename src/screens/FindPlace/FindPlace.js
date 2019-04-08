@@ -40,6 +40,7 @@ class FindPlaceScreen extends Component {
       duration: 500,
       useNativeDriver: true
     }).start();
+    this.setState({ show: true });
   };
 
   render() {

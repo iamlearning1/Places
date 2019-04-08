@@ -21,15 +21,7 @@ export default class PickImage extends Component {
           initialRegion={this.state.focusedLocation}
           style={styles.map}
         /> */}
-        <MapView
-          style={styles.map}
-          region={{
-            latitude: 42.882004,
-            longitude: 74.582748,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421
-          }}
-        />
+        <MapView style={styles.map} region={this.state.focusedLocation} />
         <View style={styles.button}>
           <Button title="Locate Me" />
         </View>

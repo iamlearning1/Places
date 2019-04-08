@@ -6,13 +6,10 @@ export default class PickImage extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.placeholder}>
-          <Image
-            source={require("../../assets/background.jpg")}
-            style={styles.image}
-          />
+          <Image source={this.props.src} style={styles.image} />
         </View>
         <View style={styles.button}>
-          <Button title="Pick Image" onPress={() => alert("i")} />
+          <Button title="Pick Image" onPress={this.props.pickImageHandler} />
         </View>
       </View>
     );
