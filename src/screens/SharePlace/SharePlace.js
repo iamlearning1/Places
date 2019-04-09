@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Button, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Button,
+  ScrollView,
+  Dimensions,
+  ActivityIndicator
+} from "react-native";
 import { connect } from "react-redux";
 import ImagePicker from "react-native-image-picker";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -13,8 +20,17 @@ import HeadingText from "../../components/UI/HeadingText";
 class SharePlaceScreen extends Component {
   state = {
     placeName: "",
-    pickedImage: null
+    pickedImage: null,
+    focusedLocation: {
+      latitude: 37.7900352,
+      longitude: -122.4013726,
+      latitudeDelta: 0.0122,
+      longitudeDelta:
+        (Dimensions.get("window").width / Dimensions.get("window").height) *
+        0.0122
+    }
   };
+
   static navigationOptions = {
     tabBarIcon: <Icon size={30} name="ios-share-alt" color="purple" />,
     title: "Share Place"
@@ -22,8 +38,11 @@ class SharePlaceScreen extends Component {
 
   placeAddedHandler = () => {
     if (this.state.placeName.trim().length > 0) {
-      this.props.onAddPlace(this.state.placeName, this.state.pickedImage);
-      this.props.navigation.navigate("FindPlace");
+      this.props.onAddPlace(
+        this.state.placeName,
+        this.state.pickedImage,
+        this.state.focusedLocation
+      );
     }
   };
 
@@ -45,13 +64,20 @@ class SharePlaceScreen extends Component {
           console.log("error");
         } else {
           this.setState({
-            pickedImage: { uri: res.uri }
+            pickedImage: { uri: res.uri, base64: res.data }
           });
         }
       }
     );
   };
+
   render() {
+    let submitButton = (
+      <Button title="Share!" onPress={this.placeAddedHandler} />
+    );
+    if (this.props.isLoading) {
+      submitButton = <ActivityIndicator />;
+    }
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -60,12 +86,12 @@ class SharePlaceScreen extends Component {
             pickImageHandler={this.pickImageHandler}
             src={this.state.pickedImage}
           />
-          <PickLocation />
+          <PickLocation region={this.state.focusedLocation} />
           <PlaceInput
             placeName={this.state.placeName}
             onChangeText={this.placeNameChangeHandler}
           />
-          <Button title="Share!" onPress={this.placeAddedHandler} />
+          {submitButton}
         </View>
       </ScrollView>
     );
@@ -93,11 +119,16 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => ({
+  isLoading: state.ui.isLoading
+});
+
 const mapDispatchToProps = dispatch => ({
-  onAddPlace: (placeName, image) => dispatch(addPlace(placeName, image))
+  onAddPlace: (placeName, image, location) =>
+    dispatch(addPlace(placeName, image, location))
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SharePlaceScreen);
