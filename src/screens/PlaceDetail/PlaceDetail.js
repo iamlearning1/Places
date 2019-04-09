@@ -3,8 +3,7 @@ import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 
-import { deletePlace } from "../../store/actions";
-
+import { deletePlaces } from "../../store/actions";
 class PlaceDetail extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam("selectedPlace").name
@@ -21,7 +20,7 @@ class PlaceDetail extends Component {
       <View style={styles.container}>
         <View>
           <Image source={selectedPlace.image} style={styles.placeImage} />
-          <Text style={styles.placeName}>{selectedPlace.name}</Text>
+          <Text style={styles.placeName}>{selectedPlace.placeName}</Text>
         </View>
         <View>
           <TouchableOpacity onPress={this.placeDeletedHandler}>
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onDeletePlace: key => dispatch(deletePlace(key))
+  onDeletePlace: key => dispatch(deletePlaces(key))
 });
 
 export default connect(

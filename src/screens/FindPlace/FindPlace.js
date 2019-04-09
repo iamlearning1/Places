@@ -11,11 +11,14 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 
 import PlaceList from "../../components/PlaceList/PlaceList";
+import { getPlaces } from "../../store/actions/";
+
 class FindPlaceScreen extends Component {
   state = {
     show: false,
     removeAnim: new Animated.Value(1)
   };
+
   static navigationOptions = {
     tabBarIcon: (
       <Icon
@@ -26,6 +29,10 @@ class FindPlaceScreen extends Component {
     ),
     title: "Find Places"
   };
+
+  componentDidMount() {
+    this.props.onLoadPlaces();
+  }
 
   itemSelectedHandler = key => {
     const selectedPlace = this.props.places.find(place => place.key == key);
@@ -110,4 +117,11 @@ const mapStateToProps = state => ({
   places: state.places.places
 });
 
-export default connect(mapStateToProps)(FindPlaceScreen);
+const mapDispatchToProps = dispatch => ({
+  onLoadPlaces: () => dispatch(getPlaces())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FindPlaceScreen);
