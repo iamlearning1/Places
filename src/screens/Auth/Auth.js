@@ -6,7 +6,8 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { DrawerActions } from "react-navigation";
@@ -48,6 +49,15 @@ class AuthScreen extends Component {
       }
     }
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.authMode === this.state.authMode &&
+      this.props.authenticated
+    ) {
+      this.props.navigation.navigate("Places");
+    }
+  }
 
   static navigationOptions = ({ navigation }) => ({
     title: "Login",
@@ -109,14 +119,13 @@ class AuthScreen extends Component {
     }));
   };
 
-  loginHandler = () => {
-    const { email, password, confirmPassword } = this.state.controls;
+  authHandler = () => {
+    const { email, password } = this.state.controls;
     const authData = {
       email: email.value,
       password: password.value
     };
-    this.props.onLogin(authData);
-    this.props.navigation.navigate("Places");
+    this.props.onTryAuth(authData, this.state.authMode);
   };
 
   authModeHandler = () => {
@@ -138,6 +147,25 @@ class AuthScreen extends Component {
         autoCapitalize="none"
       />
     );
+
+    let submitButton = (
+      <Button
+        onPress={this.authHandler}
+        color="pink"
+        disabled={
+          !this.state.controls.email.valid ||
+          !this.state.controls.password.valid ||
+          (!this.state.controls.confirmPassword.valid &&
+            this.state.authMode === "signup")
+        }
+      >
+        Submit
+      </Button>
+    );
+
+    if (this.props.loading) {
+      submitButton = <ActivityIndicator size="large" color="purple" />;
+    }
 
     return (
       <ImageBackground
@@ -176,18 +204,7 @@ class AuthScreen extends Component {
               {this.state.authMode === "signup" ? confirmPass : null}
             </View>
           </TouchableWithoutFeedback>
-          <Button
-            onPress={this.loginHandler}
-            color="pink"
-            disabled={
-              !this.state.controls.email.valid ||
-              !this.state.controls.password.valid ||
-              (!this.state.controls.confirmPassword.valid &&
-                this.state.authMode === "signup")
-            }
-          >
-            Submit
-          </Button>
+          {submitButton}
         </KeyboardAvoidingView>
       </ImageBackground>
     );
@@ -216,11 +233,16 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => ({
+  loading: state.ui.isLoading,
+  authenticated: state.auth.authenticated
+});
+
 const mapDispatchToProps = dispatch => ({
-  onLogin: authData => dispatch(tryAuth(authData))
+  onTryAuth: (authData, authMode) => dispatch(tryAuth(authData, authMode))
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AuthScreen);
