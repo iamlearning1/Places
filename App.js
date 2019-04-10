@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import SplashScreen from "react-native-splash-screen";
 import {
-	createStackNavigator,
-	createAppContainer,
-	createDrawerNavigator
+  createStackNavigator,
+  createAppContainer,
+  createSwitchNavigator,
+  createDrawerNavigator
 } from "react-navigation";
 import { Provider } from "react-redux";
 
@@ -16,47 +17,47 @@ import SideDrawer from "./src/screens/SideDrawer/SideDrawer";
 const store = configureStore();
 
 const AppNavigator = createStackNavigator(
-	{
-		Home: AuthScreen,
-		PlaceDetail,
-		Places: PlaceContainer
-	},
-	{
-		initialRouteName: "Home",
-		defaultNavigationOptions: {
-			headerStyle: {
-				backgroundColor: "purple"
-			},
-			headerTintColor: "#FFFFFF",
-			headerTitleStyle: {
-				fontWeight: "bold"
-			}
-		}
-	}
+  {
+    Home: AuthScreen,
+    PlaceDetail,
+    Places: PlaceContainer
+  },
+  {
+    initialRouteName: "Home",
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "purple"
+      },
+      headerTintColor: "#FFFFFF",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+    }
+  }
 );
 
 const SideDrawerNavigator = createDrawerNavigator(
-	{
-		Home: AppNavigator,
-		Logout: SideDrawer
-	},
-	{
-		initialRouteName: "Home"
-	}
+  {
+    Home: AppNavigator,
+    Logout: SideDrawer
+  },
+  {
+    initialRouteName: "Home"
+  }
 );
 
 const Navigation = createAppContainer(SideDrawerNavigator);
 
 export default class App extends Component {
-	componentDidMount() {
-		SplashScreen.hide();
-	}
-	render() {
-		return (
-			<Provider store={store}>
-				<Navigation />
-				{/* <PlaceContainer /> */}
-			</Provider>
-		);
-	}
+  componentDidMount() {
+    SplashScreen.hide();
+  }
+  render() {
+    return (
+      <Provider store={store}>
+        <Navigation />
+        {/* <PlaceContainer /> */}
+      </Provider>
+    );
+  }
 }

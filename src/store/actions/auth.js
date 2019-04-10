@@ -1,5 +1,5 @@
 import { uiStartLoading, uiStopLoading } from "./index";
-import { LOGIN, AUTH_SET_TOKEN } from "./actionTypes";
+import { AUTH_SET_TOKEN } from "./actionTypes";
 
 export const tryAuth = (authData, authMode) => dispatch => {
   dispatch(uiStartLoading());
@@ -38,3 +38,15 @@ const authSetToken = token => ({
   type: AUTH_SET_TOKEN,
   token
 });
+
+export const authGetToken = () => (dispatch, getState) => {
+  const promise = new Promise((resolve, reject) => {
+    const token = getState().auth.token;
+    if (!token) {
+      reject();
+    } else {
+      resolve(token);
+    }
+  });
+  return promise;
+};
