@@ -31,6 +31,15 @@ class SharePlaceScreen extends Component {
     }
   };
 
+  componentDidMount() {
+    if (this.props.isLoading) {
+      this.setState({
+        pickedImage: null,
+        placeName: ""
+      });
+    }
+  }
+
   static navigationOptions = {
     tabBarIcon: <Icon size={30} name="ios-share-alt" color="purple" />,
     title: "Share Place"
@@ -56,6 +65,8 @@ class SharePlaceScreen extends Component {
     ImagePicker.showImagePicker(
       {
         title: "Pick an Image"
+        // maxHeight: 600,
+        // maxWidth: 800
       },
       res => {
         if (res.didCancel) {

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
+import { NavigationEvents } from "react-navigation";
 
 import PlaceList from "../../components/PlaceList/PlaceList";
 import { getPlaces } from "../../store/actions/";
@@ -31,7 +32,7 @@ class FindPlaceScreen extends Component {
   };
 
   componentDidMount() {
-    this.props.onLoadPlaces();
+    this.loadPlaces();
   }
 
   itemSelectedHandler = key => {
@@ -50,11 +51,16 @@ class FindPlaceScreen extends Component {
     this.setState({ show: true });
   };
 
+  loadPlaces = () => {
+    this.props.onLoadPlaces();
+  };
+
   render() {
     let display;
     if (this.state.show) {
       display = (
         <View style={styles.placelist}>
+          <NavigationEvents onDidFocus={this.loadPlaces} />
           <PlaceList
             places={this.props.places}
             onItemSelected={this.itemSelectedHandler}

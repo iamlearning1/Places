@@ -50,6 +50,10 @@ class AuthScreen extends Component {
     }
   };
 
+  componentDidMount() {
+    console.log(this.props.token);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.authMode === this.state.authMode &&
@@ -235,7 +239,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   loading: state.ui.isLoading,
-  authenticated: state.auth.authenticated
+  authenticated: state.auth.authenticated,
+  token: state.auth.token
 });
 
 const mapDispatchToProps = dispatch => ({
